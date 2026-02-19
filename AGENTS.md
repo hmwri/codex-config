@@ -55,3 +55,9 @@ This file defines mandatory execution rules for all coding agents working in thi
 - If user requests or mid-stream specification changes require updates to `workflow.md` and/or the active `requirements_vX.X.md`, agents must update those files promptly to reflect the new agreed behavior.
 - When such updates are made, record the change, rationale, and impacted sections in `progress.md` (including date/time JST and files changed).
 - If the change results in a new requirements version, create a new `requirements_vX.X.md` with an incremented version number and clearly document what changed from the previous version.
+
+## 8) Escalation-first policy for install/network errors
+- If a command that needs external network access (e.g., `npm install`, package download, remote API reachability checks) fails with connectivity/DNS/proxy-style errors in sandbox, agents must rerun the same command once with escalation (`sandbox_permissions: require_escalated`) before deciding root cause or switching to an alternative implementation.
+- Agents must not conclude "dependency unavailable" or "network issue in project" until the escalated retry result is confirmed.
+- If escalated retry succeeds, agents must continue with the original implementation path unless the user instructs otherwise.
+- If escalated retry also fails, agents may proceed with fallback approaches and must record both attempts and rationale in `progress.md`.
